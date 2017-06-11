@@ -30,15 +30,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	?>
 	<?php 
 		echo $this->Html->css('bootstrap.min.css');
-		echo $this->Html->css('jquery.dataTables.min.css');
 	 ?>
 	<?php
 		echo $this->Html->script('jquery-3.2.1.min.js');
 		echo $this->Html->script('bootstrap.min.js');
-		echo $this->Html->script('jquery.mask.js');
 		echo $this->Html->script('angular.min.js');
-		echo $this->Html->script('jquery.dataTables.min.js');
-		echo $this->Html->script('angular-route.js');
 		echo $this->Html->script('dirPagination.js');
 		echo $this->Html->script('app'.DS.'app.js');
 	?>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br" >
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Consulta Netflix</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+        <!-- Incluindo AngularJS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+    </head>
+    <body ng-app="mainModule" ng-controller="mainController" ng-init="mostrar=false">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8" id="content-container">
+                    <div class="row">                        
+                        <div ng-show="filmes.error.message">
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">
+                                    &times;</button>{{filmes.error.message}}</div>
+                        </div>
+                        <form id="form" name="form" class="form-horizontal" novalidate>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <div class="panel-title">Consultar Netflix
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row form-group">
+                                        <div class="col-lg-6">
+                                            <label>Nome Diretor</label>
+                                            <input class="form-control" type="text"  name="fDiretor" ng-model="filmes.diretor">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>Nome Ator</label>
+                                            <input class="form-control" type="text"  name="fDiretor" ng-model="filmes.ator">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-lg btn-success" ng-click="consultar()">Consultar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>  
+                    <div class="row">
+                        <div ng-show="mostrar">
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <img src="{{filmes.resultado.poster}}" alt="{{filmes.resultado.show_title}}" class="img-responsive">
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <h1>{{filmes.resultado.show_title}} ({{filmes.resultado.release_year}})</h1>
+                                <p><strong>Netflix Rating:</strong> {{filmes.resultado.rating}}</p>
+                                <p>{{filmes.resultado.summary}}</p>
+                                <p><strong>Director:</strong>{{filmes.resultado.director}}<br></p>
+                                <p><strong>Cast:</strong> {{filmes.resultado.show_cast}}</p>
+                                <br>
+                                <a href="http://www.netflix.com/WiPlayer?movieid={{filmes.resultado.show_id}}"><button type="button" class="btn btn-default">Watch on Netflix</button></a>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+        </div>
+        <script src="js/app.js"></script>
+    </body>
+</html>

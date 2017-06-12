@@ -31,8 +31,6 @@ App::uses('AppController', 'Controller');
 class UsuariosController extends AppController {
 	//Models
 	public $uses = array('Usuarios');
-	//Componentes
-    public $components = array('RequestHandler');
 
     public function beforeFilter() {
 	    parent::beforeFilter();
@@ -40,80 +38,61 @@ class UsuariosController extends AppController {
 
 	public function index() {
 		$this->layout = 'ajax';
-		$token = (string) $this->request->header('Authorization');
-		if ($token == $this->token) {
-	        $usuarios = $this->Usuarios->find('all');
+        $usuarios = $this->Usuarios->find('all');
+        $this->set(array(
+            'retorno' => [
+        	'code' => "00",
+        	'retorno' => Set::classicExtract($usuarios, '{n}.Usuarios'),
+        ]
+        ));
+	}
+	public function excluir(){
+		$this->layout = 'ajax';
+		$id = $this->request->data['id'];
+		if($this->Usuarios->delete($id)){
 	        $this->set(array(
 	            'retorno' => [
-            	'code' => "00",
-            	'retorno' => Set::classicExtract($usuarios, '{n}.Usuarios'),
-            ]
+	            	'code' => "00",
+	            	'retorno' => "Usuario deletado com sucesso!;",
+	            ]
 	        ));
-		}else{
-	        $this->set(array(
+	    }else{
+	    	$this->set(array(
 	            'retorno' => [
-	            	'code' => "01",
-	            	'retorno' => "Requisição invalida",
+	            	'code' => "02",
+	            	'retorno' => "Usuario não pode ser deletado!;",
 	            ]
 	        ));
 	    }
 	}
-	public function excluir(){
-		$this->layout = 'ajax';
-		$token = (string) $this->request->header('Authorization');
-		if ($token == $this->token) {
-			$id = $this->request->data['id'];
-			if($this->Usuarios->delete($id)){
-		        $this->set(array(
-		            'retorno' => [
-		            	'code' => "00",
-		            	'retorno' => "Usuario deletado com sucesso!;",
-		            ]
-		        ));
-		    }else{
-		    	$this->set(array(
-		            'retorno' => [
-		            	'code' => "02",
-		            	'retorno' => "Usuario não pode ser deletado!;",
-		            ]
-		        ));
-		    }
-		}else{
-	        $this->set(array(
-	            'retorno' => [
-	            	'code' => "01",
-	            	'menssagem' => "Requisição invalida",
-	            ]
-	        ));			
-		}
-	}
 	public function salvar(){
 		$this->layout = 'ajax';
-		$token = (string) $this->request->header('Authorization');
-		if ($token == $this->token) {
-			$dados = $this->request->data;
-			if($this->Usuarios->save($dados)){
-		        $this->set(array(
-		            'retorno' => [
-		            	'code' => "00",
-		            	'retorno' => "Usuario salvo com sucesso!;",
-		            ]
-		        ));
-		    }else{
-		    	$this->set(array(
-		            'retorno' => [
-		            	'code' => "02",
-		            	'retorno' => "Usuario não pode ser salvo!;",
-		            ]
-		        ));
-		    }
-		}else{
+		$dados = $this->request->data;
+		if($this->Usuarios->save($dados)){
 	        $this->set(array(
 	            'retorno' => [
-	            	'code' => "01",
-	            	'menssagem' => "Requisição invalida",
+	            	'code' => "00",
+	            	'retorno' => "Usuario salvo com sucesso!;",
 	            ]
-	        ));			
-		}
+	        ));
+	    }else{
+	    	$this->set(array(
+	            'retorno' => [
+	            	'code' => "02",
+	            	'retorno' => "Usuario não pode ser salvo!;",
+	            ]
+	        ));
+	    }
+	}
+
+	public function error()
+	{
+		$this->layout = 'ajax';
+		$this->set(array(
+            'retorno' => [
+            	'code' => "01",
+            	'retorno' => "Requisição invalidá!;",
+            ]
+        ));
 	}
 }

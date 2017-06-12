@@ -32,4 +32,18 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 	protected $token = "3e1175883f758a4658ea95e09313fb09";
+	//Componentes
+    public $components = array('RequestHandler');
+
+    public function beforeFilter() {
+    	if($this->request->params['controller'] == 'Usuarios' and $this->request->params['action'] != 'error')
+    	{
+			$token = (string) $this->request->header('Authorization');
+			if ($token != $this->token) {
+		        return $this->redirect(
+		            array('controller' => 'Usuarios', 'action' => 'error')
+		        );
+		    }
+		}
+	}
 }
